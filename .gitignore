@@ -1,0 +1,13 @@
+# Code coverage
+./coverage
+
+# dotenv
+.env
+
+# reports
+report.json
+test-report.xml
+
+.idea
+.gradle
+build
