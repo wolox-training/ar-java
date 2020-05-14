@@ -7,6 +7,7 @@ import javax.persistence.Id;
 @Entity
 public class Book {
     @Id
+    @Column(nullable = false)
     private String isbn;
 
     @Column()
