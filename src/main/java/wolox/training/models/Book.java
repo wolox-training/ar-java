@@ -39,7 +39,7 @@ public class Book {
     @Column(nullable = false)
     private String pages;
 
-    protected Book() {}
+    public Book() {}
 
     public long getId() {
         return this.id;
