@@ -7,14 +7,13 @@ import org.springframework.data.repository.Repository;
 import wolox.training.models.Book;
 
 public interface BookRepository extends Repository<Book, Long> {
-    Optional<Book> findFirstByAuthor (String author);
+    Optional<Book> findFirstByAuthor (final String author);
 
-    Optional<Book> findById(long id);
+    Optional<Book> findById(final long id);
 
-    @Query(value = "SELECT b FROM Book b")
-    List<Book> findAllBooks();
+    List<Book> findAll();
 
-    void deleteById(long id);
+    void deleteById(final long id);
 
-    Book save(Book book);
+    Book save(final Book book);
 }

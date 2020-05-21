@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import wolox.training.exceptions.BookIdMismatchException;
-import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
-import wolox.training.repositories.BookRepository;
+import wolox.training.service.BookService;
 
 @Controller
 public class BookController {
+
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -28,43 +27,34 @@ public class BookController {
         return "greeting";
     }
 
-    @GetMapping
-    public Iterable findAll() {
-        return bookRepository.findAllBooks();
+    @GetMapping("/")
+    public final Iterable findAll() {
+        return bookService.findAll();
     }
 
     @GetMapping("/title/{bookAuthor}")
-    public Book findOneByAuthor(@PathVariable String bookAuthor) {
-        return bookRepository.findFirstByAuthor(bookAuthor)
-            .orElseThrow(() -> new BookNotFoundException("Author", bookAuthor));
+    public final Book findOneByAuthor(@PathVariable final String bookAuthor) {
+        return bookService.findOneByAuthor(bookAuthor);
     }
 
     @GetMapping("/{id}")
-    public Book findOne(@PathVariable Long id) {
-        return bookRepository.findById(id)
-            .orElseThrow(() -> new BookNotFoundException("ID", id.toString()));
+    public final Book findOne(@PathVariable final Long id) {
+        return bookService.findOne(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book create(@RequestBody Book book) {
-        return bookRepository.save(book);
+    public final Book create(@RequestBody final Book book) {
+        return bookService.create(book);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        bookRepository.findById(id)
-            .orElseThrow(() -> new BookNotFoundException("ID", id.toString()));
-        bookRepository.deleteById(id);
+    public final void delete(@PathVariable final Long id) {
+        bookService.delete(id);
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
-        if (book.getId() != id) {
-            throw new BookIdMismatchException();
-        }
-        bookRepository.findById(id)
-            .orElseThrow(() -> new BookNotFoundException("ID", id.toString()));
-        return bookRepository.save(book);
+    public final Book updateBook(@RequestBody final Book book, @PathVariable final Long id) {
+        return bookService.update(book, id);
     }
 }
