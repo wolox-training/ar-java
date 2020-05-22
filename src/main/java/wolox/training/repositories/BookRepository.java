@@ -8,8 +8,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findFirstByAuthor (final String author);
 
     Optional<Book> findById(final long id);
-
-//    void deleteById(final long id);
-
-//    Book save(final Book book);
 }
