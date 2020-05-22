@@ -14,24 +14,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<Object> handleBookNotFoundException(
-        BookNotFoundException ex, WebRequest request) {
+    public ResponseEntity<Error> handleBookNotFoundException(
+        BookNotFoundException ex) {
 
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        Error error = new Error(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BookIdMismatchException.class)
-    public ResponseEntity<Object> handleBookIdMismatchException(
-        BookIdMismatchException ex, WebRequest request) {
+    public ResponseEntity<Error> handleBookIdMismatchException(
+        BookIdMismatchException ex) {
 
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
+        Error error = new Error(ex.getMessage(), HttpStatus.CONFLICT.value());
 
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }

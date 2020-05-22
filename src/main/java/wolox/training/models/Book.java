@@ -112,8 +112,4 @@ public class Book {
     public void setPages(String pages) {
         this.pages = pages;
     }
-
-    public void orElseThrow(Exception ex) throws Exception {
-        throw  ex;
-    }
 }
